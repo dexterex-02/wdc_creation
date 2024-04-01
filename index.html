@@ -1,3 +1,108 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Dog Breed Data Connector</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://connectors.tableau.com/libs/tableauwdc-2.3.latest.js"></script>
+    <script>
+        (function () {
+            // Define the Web Data Connector
+            var myConnector = tableau.makeConnector();
+
+            myConnector.init = function(initCallback) {
+                tableau.authType = tableau.authTypeEnum.none;
+                initCallback();
+            };
+
+            myConnector.getSchema = function(schemaCallback) {
+                var cols = [{
+                    id: "id",
+                    dataType: tableau.dataTypeEnum.string
+                }, {
+                    id: "name",
+                    dataType: tableau.dataTypeEnum.string
+                }, {
+                    id: "description",
+                    dataType: tableau.dataTypeEnum.string
+                }, {
+                    id: "life_max",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "life_min",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "male_weight_max",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "male_weight_min",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "female_weight_max",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "female_weight_min",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "hypoallergenic",
+                    dataType: tableau.dataTypeEnum.bool
+                }];
+
+                var schema = {
+                    id: "dogBreeds",
+                    alias: "Dog Breeds",
+                    columns: cols
+                };
+
+                schemaCallback([schema]);
+            };
+
+            myConnector.getData = function(table, doneCallback) {
+                var apiUrl = "https://dogapi.dog/api/v2/breeds";
+
+                $.getJSON(apiUrl, function(response) {
+                    var data = response.data;
+                    var tableData = [];
+
+                    for (var i = 0; i < data.length; i++) {
+                        var attributes = data[i].attributes;
+
+                        tableData.push({
+                            "id": data[i].id,
+                            "name": attributes.name,
+                            "description": attributes.description,
+                            "life_max": attributes.life.max,
+                            "life_min": attributes.life.min,
+                            "male_weight_max": attributes.male_weight.max,
+                            "male_weight_min": attributes.male_weight.min,
+                            "female_weight_max": attributes.female_weight.max,
+                            "female_weight_min": attributes.female_weight.min,
+                            "hypoallergenic": attributes.hypoallergenic
+                        });
+                    }
+
+                    table.appendRows(tableData);
+                    doneCallback();
+                });
+            };
+
+            tableau.registerConnector(myConnector);
+
+            // Trigger Tableau to connect to the Web Data Connector
+            $(document).ready(function () {
+                $("#submitButton").click(function () {
+                    tableau.connectionName = "Dog Breeds Data";
+                    tableau.submit();
+                });
+            });
+        })();
+    </script>
+</head>
+<body>
+    <button id="submitButton">Connect to Dog Breeds Data</button>
+</body>
+</html> -->
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,95 +110,96 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://connectors.tableau.com/libs/tableauwdc-2.3.latest.js"></script>
     <script>
-        (function() {
-    // Create tableau connector object
-    var myConnector = tableau.makeConnector();
+        (function () {
+            // Define the Web Data Connector
+            var myConnector = tableau.makeConnector();
 
-    // Define the schema for the data
-    myConnector.getSchema = function(schemaCallback) {
-        var cols = [{
-            id: "movieID",
-            dataType: tableau.dataTypeEnum.int
-        }, {
-            id: "name",
-            dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "genre",
-            dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "duration",
-            dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "stars",
-            dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "director",
-            dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "multimedia",
-            dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "streaming",
-            dataType: tableau.dataTypeEnum.string
-        }, {
-            id: "rating",
-            dataType: tableau.dataTypeEnum.float
-        }, {
-            id: "image",
-            dataType: tableau.dataTypeEnum.string
-        }];
+            myConnector.init = function(initCallback) {
+                tableau.authType = tableau.authTypeEnum.none;
+                initCallback();
+            };
 
-        var tableSchema = {
-            id: "movieData",
-            alias: "Movie Data",
-            columns: cols
-        };
+            myConnector.getSchema = function(schemaCallback) {
+                var cols = [{
+                    id: "id",
+                    dataType: tableau.dataTypeEnum.string
+                }, {
+                    id: "name",
+                    dataType: tableau.dataTypeEnum.string
+                }, {
+                    id: "description",
+                    dataType: tableau.dataTypeEnum.string
+                }, {
+                    id: "life_max",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "life_min",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "male_weight_max",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "male_weight_min",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "female_weight_max",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "female_weight_min",
+                    dataType: tableau.dataTypeEnum.int
+                }, {
+                    id: "hypoallergenic",
+                    dataType: tableau.dataTypeEnum.bool
+                }];
 
-        schemaCallback([tableSchema]);
-    };
+                var schema = {
+                    id: "dogBreeds",
+                    alias: "Dog Breeds",
+                    columns: cols
+                };
 
-    // Download the data
-    myConnector.getData = function(table, doneCallback) {
-        var apiUrl = "https://localhost:7191/api/Movie/GetMovie";
+                schemaCallback([schema]);
+            };
 
-        $.getJSON(apiUrl, function(resp) {
-            var data = resp;
+            myConnector.getData = function(table, doneCallback) {
+                var apiUrl = "https://dogapi.dog/api/v2/breeds";
 
-            tableData = [];
+                $.getJSON(apiUrl, function(response) {
+                    var data = response.data;
+                    var tableData = [];
 
-            // Iterate over each movie object and push it to tableData
-            data.forEach(function(movie) {
-                tableData.push({
-                    "movieID": movie.movieID,
-                    "name": movie.name,
-                    "genre": movie.genre,
-                    "duration": movie.duration,
-                    "stars": movie.stars,
-                    "director": movie.director,
-                    "multimedia": movie.multimedia,
-                    "streaming": movie.streaming,
-                    "rating": movie.rating,
-                    "image": movie.image.filePath
+                    for (var i = 0; i < data.length; i++) {
+                        var attributes = data[i].attributes;
+
+                        tableData.push({
+                            "id": data[i].id,
+                            "name": attributes.name,
+                            "description": attributes.description,
+                            "life_max": attributes.life.max,
+                            "life_min": attributes.life.min,
+                            "male_weight_max": attributes.male_weight.max,
+                            "male_weight_min": attributes.male_weight.min,
+                            "female_weight_max": attributes.female_weight.max,
+                            "female_weight_min": attributes.female_weight.min,
+                            "hypoallergenic": attributes.hypoallergenic
+                        });
+                    }
+
+                    table.incrementRows(tableData); // Send incremental data updates
+                    doneCallback();
+                });
+            };
+
+            tableau.registerConnector(myConnector);
+
+            // Trigger Tableau to connect to the Web Data Connector
+            $(document).ready(function () {
+                $("#submitButton").click(function () {
+                    tableau.connectionName = "Dog Breeds Data";
+                    tableau.submit();
                 });
             });
-
-            // Send the data to Tableau
-            table.appendRows(tableData);
-            doneCallback();
-        });
-    };
-
-    // Register the connector
-    tableau.registerConnector(myConnector);
-
-    // Initialize the connector
-    $(document).ready(function() {
-        $("#submitButton").click(function() {
-            tableau.connectionName = "Movie Data";
-            tableau.submit();
-        });
-    });
-})();
+        })();
     </script>
 </head>
 <body>
